@@ -1,11 +1,23 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
+from users import router as user_router
+
+auth_api_urls=[]
+if settings.DEBUG:
+    auth_api_urls.append(path(r'verify/', include('rest_framework.urls')))
+
+api_url_patterns = [
+    path(r'auth/',include(auth_api_urls)),
+    path('accounts/', include(user_router.router.urls)),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include(api_url_patterns)),
+]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

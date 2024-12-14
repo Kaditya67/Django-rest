@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'users',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,6 +56,16 @@ ROOT_URLCONF = 'taskful_api.urls'
 
 MEDIA_URL = '/media/'  # URL to access the media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ]
+}
 
 TEMPLATES = [
     {
