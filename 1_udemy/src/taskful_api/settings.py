@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 ]
 
 MIDDLEWARE = [
@@ -57,13 +60,21 @@ ROOT_URLCONF = 'taskful_api.urls'
 MEDIA_URL = '/media/'  # URL to access the media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+AUTHENTICATION_BACKENDS = (
+   'rest_framework_social_oauth2.backends.DjangoOAuth2',
+   'django.contrib.auth.backends.ModelBackend',
+)
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication'
+        'rest_framework.authentication.BasicAuthentication',
+
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ]
 }
 
@@ -78,6 +89,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
