@@ -60,24 +60,6 @@ ROOT_URLCONF = 'taskful_api.urls'
 MEDIA_URL = '/media/'  # URL to access the media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTHENTICATION_BACKENDS = (
-   'rest_framework_social_oauth2.backends.DjangoOAuth2',
-   'django.contrib.auth.backends.ModelBackend',
-)
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
-    ]
-}
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -95,6 +77,29 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+    )
+}
+
+AUTHENTICATION_BACKENDS = (
+   'django.contrib.auth.backends.ModelBackend',
+   'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    # 'oauth2_provider.backends.OAuth2Backend', 
+)
+
+# DRFSO2_PROPRIETARY_BACKEND_NAME = 'Rest'
+DRFSO2_URL_NAMESPACE = 'drfso2'
 
 WSGI_APPLICATION = 'taskful_api.wsgi.application'
 
