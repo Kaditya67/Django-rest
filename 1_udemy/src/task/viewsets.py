@@ -1,10 +1,11 @@
 from .serializers import TaskListSerializer, TaskSerializer, AttachmentSerializer
 from .models import TaskList, Task, Attachment
-from rest_framework import mixins, response, viewsets, status
+from rest_framework import mixins, response, viewsets, status, filters
 from .permissions import IsAllowedToEditTaskListElseNone, IsAllowedToEditTaskOrNone, IsAllowedToEditAttachmentElseNone
 from rest_framework.decorators import action
 from django.utils import timezone
 from .models import COMPLETE,NOT_COMPLETE
+from django_filters.rest_framework import DjangoFilterBackend
 
 class TaskListViewset(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                       viewsets.GenericViewSet, mixins.DestroyModelMixin):
@@ -16,6 +17,10 @@ class TaskViewset(viewsets.ModelViewSet):
     permission_classes = [IsAllowedToEditTaskOrNone]
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+    filter_backends = [filters.SearchFilter,DjangoFilterBackend,filters.OrderingFilter]
+    search_fields = ['name','status']
+    filterset_fields = ['status']
+
 
     def get_queryset(self):
         queryset = super(TaskViewset, self).get_queryset()
