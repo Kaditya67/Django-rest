@@ -3,4 +3,4 @@ from .viewsets import HouseViewSet
 
 app_name = 'house'
 router = routers.DefaultRouter()
-router.register('houses', HouseViewSet,basename='house')
+router.register('houses', HouseViewSet, basename='house')

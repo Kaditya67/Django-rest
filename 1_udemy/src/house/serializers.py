@@ -7,6 +7,7 @@ class HouseSerializer(serializers.ModelSerializer):
     members = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='profile-detail')
     manager = serializers.HyperlinkedRelatedField(many=False, read_only=True, view_name='profile-detail')
     url = serializers.SerializerMethodField()
+    taskLists = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='tasklist-detail',source="lists")
 
     class Meta:
         model = House
@@ -22,7 +23,8 @@ class HouseSerializer(serializers.ModelSerializer):
             'created_at', 
             'points', 
             'completed_tasks_count', 
-            'notcompleted_tasks_count'
+            'notcompleted_tasks_count',
+            'taskLists'
         ]
         read_only_fields = ['points', 'completed_tasks_count', 'notcompleted_tasks_count']
 
