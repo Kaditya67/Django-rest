@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'users',
     'house',
     'task',
+    'background_jobs',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'social_django',
     'rest_framework_social_oauth2',
     'django_filters',
+    'background_task',
 ]
 
 
